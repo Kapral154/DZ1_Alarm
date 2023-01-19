@@ -7,7 +7,7 @@ public class SensorScript : MonoBehaviour
 {
     [SerializeField] private UnityEvent _trigerAlarm;
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<Pig>(out Pig pig))
         {
@@ -20,6 +20,7 @@ public class SensorScript : MonoBehaviour
     {
         if (collision.TryGetComponent<Pig>(out Pig pig))
         {
+            Debug.Log("pigpigOFFF");
             _trigerAlarm?.Invoke();
         }
     }

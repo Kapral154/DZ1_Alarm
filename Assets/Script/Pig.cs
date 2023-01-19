@@ -7,7 +7,7 @@ public class Pig : MonoBehaviour
     [SerializeField] private Transform _pointAttack;
     [SerializeField] private Transform _pointRescue;
     [SerializeField] private float _speed;
-    [SerializeField] private float _courage;
+    [SerializeField] private float _courage;   
 
     private bool _isFearfully;
     private bool _isAttack;
@@ -62,7 +62,7 @@ public class Pig : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Signaling"))
+        if (collision.TryGetComponent<AlarmScript>(out AlarmScript alarm))
         {
             _isFearfully = true;
         }
@@ -70,7 +70,7 @@ public class Pig : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Signaling"))
+        if (collision.TryGetComponent<AlarmScript>(out AlarmScript alarm))
         {
             _isFearfully = false;
         }

@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
+
 public class AlarmScript : MonoBehaviour
 {
-    [SerializeField] private float _soundIncreaseRate;
-
     private AudioSource _alarmAudio;
     private bool _isAlarmWent;
 
@@ -16,38 +15,35 @@ public class AlarmScript : MonoBehaviour
         _alarmAudio = GetComponent<AudioSource>();
     }
 
-    void Update()
+    public void StartAlarm()
     {
-        if (_isAlarmWent == true)
-        {
-            _alarmAudio.volume += _soundIncreaseRate * Time.deltaTime;
-        }
-        else
-        {
-            _alarmAudio.volume -= _soundIncreaseRate * Time.deltaTime;
-        }
+        Debug.Log("go");
+
+        _isAlarmWent = !_isAlarmWent;
+        StartCoroutine(TurnVolyme(_isAlarmWent));
     }
 
-    public void Change()
+    private IEnumerator TurnVolyme(bool _true)
     {
-        Debug.Log("trivoga");
-        _alarmAudio.Play();
-        _alarmAudio.volume += _soundIncreaseRate * Time.deltaTime;
-    }
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.TryGetComponent<Pig>(out Pig pig))
-    //    {
-    //        _alarmAudio.Play();
-    //        _isAlarmWent = true;
-    //    }
-    //}
+        Debug.Log(_true);
 
-    //private void OnTriggerExit2D(Collider2D collision)
-    //{
-    //    if (collision.TryGetComponent<Pig>(out Pig pig))
-    //    {
-    //        _isAlarmWent = false;
-    //    }
-    //}
+        if (_true == true)
+        {
+            for (float i = 0f; i < 1f; i += 0.01f)
+            {
+                _alarmAudio.volume = i;
+
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+        else if (_true == false)
+        {
+            for (float i = 1f; i > 0; i -= 0.01f)
+            {
+                _alarmAudio.volume = i;
+
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+    }
 }
