@@ -6,44 +6,54 @@ using UnityEngine;
 
 public class AlarmScript : MonoBehaviour
 {
-    private AudioSource _alarmAudio;
-    private bool _isAlarmWent;
+    [SerializeField] private AudioSource _alarmSound;
 
-    void Awake()
+    private Coroutine _startAlarm;
+    private Coroutine _stopAlarm;
+    private float _maxVolyme = 1f;
+    private float _minVolume = 0f;
+
+    private void Start()
     {
-        _isAlarmWent = false;
-        _alarmAudio = GetComponent<AudioSource>();
+        _alarmSound = GetComponent<AudioSource>();
     }
 
-    public void StartAlarm()
+    public void TriggeringAlarm()
     {
-        Debug.Log("go");
+        _alarmSound.Play();
 
-        _isAlarmWent = !_isAlarmWent;
-        StartCoroutine(TurnVolyme(_isAlarmWent));
-    }
-
-    private IEnumerator TurnVolyme(bool _true)
-    {
-        Debug.Log(_true);
-
-        if (_true == true)
+        if (_stopAlarm != null)
         {
-            for (float i = 0f; i < 1f; i += 0.01f)
-            {
-                _alarmAudio.volume = i;
-
-                yield return new WaitForSeconds(0.1f);
-            }
+            StopCoroutine(_stopAlarm);
         }
-        else if (_true == false)
-        {
-            for (float i = 1f; i > 0; i -= 0.01f)
-            {
-                _alarmAudio.volume = i;
 
-                yield return new WaitForSeconds(0.1f);
+        _startAlarm = StartCoroutine(AlarmOperation(_maxVolyme));
+    }
+
+    public void TurnAlarm()
+    {
+        if (_startAlarm != null)
+        {
+            StopCoroutine(_startAlarm);
+        }
+
+        _stopAlarm = StartCoroutine(AlarmOperation(_minVolume));
+    }
+
+    private IEnumerator AlarmOperation(float target)
+    {
+        float spedAudio = 0.1f;
+
+        while (_alarmSound.volume != target)
+        {
+            _alarmSound.volume = Mathf.MoveTowards(_alarmSound.volume, target, spedAudio * Time.deltaTime);
+
+            if (_alarmSound.volume == _minVolume)
+            {
+                _alarmSound.Stop();
             }
+            yield return null;
         }
     }
 }
+

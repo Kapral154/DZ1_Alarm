@@ -5,14 +5,15 @@ using UnityEngine.Events;
 
 public class SensorScript : MonoBehaviour
 {
-    [SerializeField] private UnityEvent _trigerAlarm;
+    [SerializeField] private UnityEvent _triggeringAlarm;
+    [SerializeField] private UnityEvent _turnAlarm;
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<Pig>(out Pig pig))
         {
-            Debug.Log("pigpig");
-            _trigerAlarm?.Invoke();
+            _triggeringAlarm.Invoke();
         }
     }
 
@@ -20,8 +21,7 @@ public class SensorScript : MonoBehaviour
     {
         if (collision.TryGetComponent<Pig>(out Pig pig))
         {
-            Debug.Log("pigpigOFFF");
-            _trigerAlarm?.Invoke();
+            _turnAlarm.Invoke();
         }
     }
 }
