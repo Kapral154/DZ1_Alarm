@@ -5684,6 +5684,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5537281695342197063, guid: d40b711f0aff6284fb722d61ee0250cf, type: 3}
+      propertyPath: _speed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537281695342197063, guid: d40b711f0aff6284fb722d61ee0250cf, type: 3}
       propertyPath: _pointAttack
       value: 
       objectReference: {fileID: 1516335081}

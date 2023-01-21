@@ -9,7 +9,6 @@ public class AlarmScript : MonoBehaviour
     [SerializeField] private AudioSource _alarmSound;
 
     private Coroutine _startAlarm;
-    private Coroutine _stopAlarm;
     private float _maxVolyme = 1f;
     private float _minVolume = 0f;
 
@@ -22,9 +21,9 @@ public class AlarmScript : MonoBehaviour
     {
         _alarmSound.Play();
 
-        if (_stopAlarm != null)
+        if (_startAlarm != null)
         {
-            StopCoroutine(_stopAlarm);
+            StopCoroutine(_startAlarm);
         }
 
         _startAlarm = StartCoroutine(AlarmOperation(_maxVolyme));
@@ -37,7 +36,7 @@ public class AlarmScript : MonoBehaviour
             StopCoroutine(_startAlarm);
         }
 
-        _stopAlarm = StartCoroutine(AlarmOperation(_minVolume));
+        _startAlarm = StartCoroutine(AlarmOperation(_minVolume));
     }
 
     private IEnumerator AlarmOperation(float target)
